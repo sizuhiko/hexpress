@@ -1,0 +1,28 @@
+{
+    "name": "sizuhiko/hexpress",
+    "description": "hexpress is a PHP library that human way to define regular expressions",
+    "type": "library",
+    "require": {
+        "php": ">=5.5"
+    },    
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "sizuhiko",
+            "email": "k-kishida@esm.co.jp"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Hexpress\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\Hexpress\\": "tests\\Case\\Hexpress"
+        }
+    }
+}
