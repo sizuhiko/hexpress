@@ -4,39 +4,26 @@ namespace Test\Hexpress;
 use Hexpress\Hexpress;
 
 class HexpressTest extends \PHPUnit_Framework_TestCase {
-    public function testItTakesBlockAndTurnsIntoRegex() {
+    public function testItTakesChainAndTurnsIntoRegex() {
         $pattern = (new Hexpress())->find("foo");
         $this->assertEquals("/(foo)/", $pattern->toRegExp());
     }
 
-    // it "takes a chain and turns into a regex" do
-    // pattern = Hexpress.new.find("foo")
-    // expect(pattern.to_r).to eq(/(foo)/)
-    // end
+    public function testWordReturnsTheWordMatcher() {
+        $this->assertEquals('\w', (new Hexpress())->word());
+    }
 
-    // describe "#word" do
-    // it "returns the word matcher" do
-    //   expect(Hexpress.new.word.to_s).to eq('\w')
-    // end
-    // end
+    public function testDigitReturnsTheDigitMatcher() {
+        $this->assertEquals('\d', (new Hexpress())->digit());
+    }
 
-    // describe "#digit" do
-    // it "returns the digit matcher" do
-    //   expect(Hexpress.new.digit.to_s).to eq('\d')
-    // end
-    // end
+    public function testSpaceReturnsTheWhitespaceMatcher() {
+        $this->assertEquals('\s', (new Hexpress())->space());
+    }
 
-    // describe "#space" do
-    // it "returns the whitespace matcher" do
-    //   expect(Hexpress.new.space.to_s).to eq('\s')
-    // end
-    // end
-
-    // describe "#words" do
-    // it "returns the word and multiple matchers" do
-    //   expect(Hexpress.new.words.to_s).to eq('(?:\w)+')
-    // end
-    // end
+    public function testWordsReturnsTheWordAndMultipleMatchers() {
+        $this->assertEquals('(?:\w)+', (new Hexpress())->words());
+    }
 
     // describe "#digits" do
     // it "returns the digit and multiple matchers" do

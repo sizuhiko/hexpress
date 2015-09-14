@@ -1,7 +1,7 @@
 <?php
 namespace Hexpress\Hexpress;
 
-class Character
+class Character {
     private $upcase;
     private $value;
 
@@ -30,11 +30,11 @@ class Character
       return new Character('\t');
     }
 
-    public static function newline() {
+    public static function lf() {
       return new Character('\n');
     }
 
-    public static function return() {
+    public static function cr() {
       return new Character('\r');
     }
 
@@ -42,7 +42,7 @@ class Character
       return $this->upcase? strtoupper($this->value) : $this->value;
     }
 
-    public function toString() {
+    public function __toString() {
       return $this->value;
     }
 }
