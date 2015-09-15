@@ -25,35 +25,39 @@ class HexpressTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('(?:\w)+', (new Hexpress())->words());
     }
 
-    // describe "#digits" do
-    // it "returns the digit and multiple matchers" do
-    //   expect(Hexpress.new.digits.to_s).to eq('(?:\d)+')
-    // end
-    // end
+    public function testDigitsReturnsTheDigitAndMultipleMatchers() {
+        $this->assertEquals('(?:\d)+', (new Hexpress())->digits());
+    }
 
-    // describe "#spaces" do
-    // it "returns the whitespace and multiple matchers" do
-    //   expect(Hexpress.new.spaces.to_s).to eq('(?:\s)+')
-    // end
-    // end
+    public function testSpecesReturnsTheWhitespaceAndMultipleMatchers() {
+        $this->assertEquals('(?:\s)+', (new Hexpress())->spaces());
+    }
 
-    // describe "#nonword" do
-    // it "returns the nonword matcher" do
-    //   expect(Hexpress.new.nonword.to_s).to eq('\W')
-    // end
-    // end
+    public function testNonwordReturnsTheNonwordMatcher() {
+        $this->assertEquals('\W', (new Hexpress())->nonword());
+    }
 
     // describe "#nondigit" do
-    // it "returns the nondigit matcher" do
-    //   expect(Hexpress.new.nondigit.to_s).to eq('\D')
-    // end
-    // end
+    public function testNondigitReturnsTheNondigitMatcher() {
+        $this->assertEquals('\D', (new Hexpress())->nondigit());
+    }
 
     // describe "#nonspace" do
-    // it "returns the nonwhitespace matcher" do
-    //   expect(Hexpress.new.nonspace.to_s).to eq('\S')
-    // end
-    // end
+    public function testNonspaceReturnsTheNonwhitespaceMatcher() {
+        $this->assertEquals('\S', (new Hexpress())->nonspace());
+    }
+
+    public function testNonwordsReturnsTheNonwordAndMultipleMatchers() {
+        $this->assertEquals('(?:\W)+', (new Hexpress())->nonwords());
+    }
+
+    public function testNondigitsReturnsTheNondigitAndMultipleMatchers() {
+        $this->assertEquals('(?:\D)+', (new Hexpress())->nondigits());
+    }
+
+    public function testNonspecesReturnsTheNonwhitespaceAndMultipleMatchers() {
+        $this->assertEquals('(?:\S)+', (new Hexpress())->nonspaces());
+    }
 
     // describe "#anything" do
     // it "returns any with zero or more pattern wrapped in noncapute" do

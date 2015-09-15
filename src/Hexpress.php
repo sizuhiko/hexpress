@@ -92,7 +92,6 @@ class Hexpress implements Noncapture
         return $this;
     }
 
-//  CHARACTERS = [:word, :digit, :space]
     public function words() {
         $this->many(Character::word());
         return $this;
@@ -108,25 +107,35 @@ class Hexpress implements Noncapture
         return $this;
     }
 
-/*
-    CHARACTERS.each do |character|
-    define_method(character) do
-      add(Character.new(character))
-    end
+    public function nonword() {
+        $this->add(Character::word(true));
+        return $this;
+    }
 
-    define_method("non#{character}") do
-      add(Character.new(character, true))
-    end
+    public function nondigit() {
+        $this->add(Character::digit(true));
+        return $this;
+    }
 
-    define_method("#{character}s") do
-      many(Character.new(character))
-    end
+    public function nonspace() {
+        $this->add(Character::space(true));
+        return $this;
+    }
 
-    define_method("non#{character}s") do
-      many(Character.new(character, true))
-    end
-    end
-*/
+    public function nonwords() {
+        $this->many(Character::word(true));
+        return $this;
+    }
+
+    public function nondigits() {
+        $this->many(Character::digit(true));
+        return $this;
+    }
+
+    public function nonspaces() {
+        $this->many(Character::space(true));
+        return $this;
+    }
 
     /**
      * This method returns the string version of the regexp.
