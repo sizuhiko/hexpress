@@ -23,6 +23,6 @@ class ValueStarting {
 
     public function __toString()
     {
-        return "^".$this->value;
+        return "^".$this->value();
     }
 }

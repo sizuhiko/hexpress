@@ -16,6 +16,6 @@ trait Value {
 
     public function __toString()
     {
-        return "".$this->value;
+        return "".$this->value();
     }
 }
