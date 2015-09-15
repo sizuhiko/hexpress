@@ -64,25 +64,13 @@ class HexpressTest extends \PHPUnit_Framework_TestCase {
     }
 
     // describe "#+" do
-    // it "returns a combination of any number of expressions" do
-    //   pattern1 = Hexpress.new.with("foo")
-    //   pattern2 = Hexpress.new.with("bar")
-    //   pattern3 = Hexpress.new.with("bang")
-    //   pattern4 = pattern1 + pattern2 + pattern3
-    //   expect(pattern4.to_r).to eq(/foobarbang/)
-    // end
-    // end
-
-    // describe "#to_regexp" do
-    // it "should return a Regexp object" do
-    //   expect(Hexpress.new.to_regexp).to be_a(Regexp)
-    // end
-    // end
-
-    // describe "acts as a Regexp" do
-    // it "should work for Regexp#try_convert" do
-    //   expect(Regexp.try_convert(Hexpress.new)).not_to be_nil
-    // end
+    public function testConcatReturnsCombinationOfAnyNumberOfExpressions() {
+        $pattern1 = (new Hexpress())->with("foo");
+        $pattern2 = (new Hexpress())->with("bar");
+        $pattern3 = (new Hexpress())->with("bang");
+        $pattern4 = $pattern1->concat($pattern2)->concat($pattern3);
+        $this->assertEquals('/foobarbang/', $pattern4->toRegExp());
+    }
 
     // it "should be able to match" do
     //   expect(Hexpress.new.with("foo").match("foo")).to_not be_nil

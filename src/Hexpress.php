@@ -16,16 +16,13 @@ class Hexpress implements Noncapture
     use Many;
 
     /** */
-    private $hexen;
-    /** */
     private $expressions;
 
     /**
      *
      */
     public function __construct($hexen = NULL) {
-        $this->hexen = $hexen;
-        $this->expressions = [];
+        $this->expressions = is_array($hexen)? $hexen : [];
     }
 
     /**
