@@ -6,13 +6,14 @@ use Hexpress\Hexpress\Value\With;
 use Hexpress\Hexpress\Value\Starting;
 use Hexpress\Hexpress\Value\Ending;
 use Hexpress\Hexpress\Nested\Find;
+use Hexpress\Hexpress\Noncapture;
+use Hexpress\Hexpress\Many;
 
-class Hexpress {
-    const OPEN = "(?:";
-    const CLOSE = ")";
-
+class Hexpress implements Noncapture
+{
     use With, Starting, Ending;
     use Find;
+    use Many;
 
     /** */
     private $hexen;
@@ -164,6 +165,12 @@ class Hexpress {
         $this->add(new $hex());
         return $this;
     }
+
+    private function add_values($hex, $value, $option)
+    {
+        $this->add(new $hex($value, $option));
+    }
+
 }
 
 /*

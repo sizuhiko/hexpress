@@ -11,7 +11,7 @@ trait Value {
 
     public function value()
     {
-        return preg_quote($this->value ? $this->value : "");
+        return is_string($this->value) ? preg_quote($this->value ? $this->value : "") : $this->value;
     }
 
     public function __toString()
