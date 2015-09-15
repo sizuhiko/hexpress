@@ -59,11 +59,9 @@ class HexpressTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('(?:\S)+', (new Hexpress())->nonspaces());
     }
 
-    // describe "#anything" do
-    // it "returns any with zero or more pattern wrapped in noncapute" do
-    //   expect(Hexpress.new.anything.to_s).to eq('(?:.)*')
-    // end
-    // end
+    public function testAnythingReturnsAnyWithZeroOrMorePatternWrappedInNoncapute() {
+        $this->assertEquals('(?:.)*', (new Hexpress())->anything());
+    }
 
     // describe "#+" do
     // it "returns a combination of any number of expressions" do
