@@ -63,7 +63,6 @@ class HexpressTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('(?:.)*', (new Hexpress())->anything());
     }
 
-    // describe "#+" do
     public function testConcatReturnsCombinationOfAnyNumberOfExpressions() {
         $pattern1 = (new Hexpress())->with("foo");
         $pattern2 = (new Hexpress())->with("bar");
@@ -72,20 +71,8 @@ class HexpressTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('/foobarbang/', $pattern4->toRegExp());
     }
 
-    // it "should be able to match" do
-    //   expect(Hexpress.new.with("foo").match("foo")).to_not be_nil
-    // end
+    public function testHexpressShouldBeAbleToMatch() {
+        $this->assertEquals(1, preg_match((new Hexpress())->with("foo")->toRegExp(), "foo"));
+    }
 
-    // it "should match using #=~" do
-    //   expect(Hexpress.new.with("foo") =~ "foo").to eq(0)
-    // end
-
-    // it "should match using ===" do
-    //   expect(Hexpress.new.with("foo") === "foo").to be_true
-    // end
-
-    // it "should be able to be matched by strings using =~" do
-    //   expect("foo" =~ Hexpress.new.with("foo")).to be_true
-    // end
-    // end
 }
