@@ -5,7 +5,7 @@ use Hexpress\Hexpress\Nested;
 
 trait Find {
     public function find($value = NULL) {
-        return $this->add_value(NestedFind::class, $value);
+        return $this->add_value(FindValue::class, $value);
     }
     public function capture($value = NULL) {
         return $this->find($value);
@@ -13,7 +13,7 @@ trait Find {
 }
 
 
-class NestedFind {
+class FindValue {
     use Nested;
 
     public function __construct($value) {
