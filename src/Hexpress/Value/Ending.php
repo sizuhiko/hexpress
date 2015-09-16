@@ -10,6 +10,9 @@ trait Ending {
     public function end($value) {
         return $this->ending($value);
     }
+    public function endline($value) {
+        return $this->ending($value);
+    }
 }
 
 class EndingValue {

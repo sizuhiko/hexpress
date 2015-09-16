@@ -16,6 +16,9 @@ trait Starting {
     public function start($value) {
         return $this->starting($value);
     }
+    public function startline($value) {
+        return $this->starting($value);
+    }
 }
 
 class StartingValue {
