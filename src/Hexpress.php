@@ -9,12 +9,13 @@ use Hexpress\Hexpress\Nested\Find;
 use Hexpress\Hexpress\Nested\Matching;
 use Hexpress\Hexpress\Noncapture;
 use Hexpress\Hexpress\Many;
+use Hexpress\Hexpress\One;
 
 class Hexpress implements Noncapture
 {
     use With, Starting, Ending;
     use Find, Matching;
-    use Many;
+    use Many, One;
 
     /** */
     private $expressions;
