@@ -6,13 +6,14 @@ use Hexpress\Hexpress\Value\With;
 use Hexpress\Hexpress\Value\Starting;
 use Hexpress\Hexpress\Value\Ending;
 use Hexpress\Hexpress\Nested\Find;
+use Hexpress\Hexpress\Nested\Matching;
 use Hexpress\Hexpress\Noncapture;
 use Hexpress\Hexpress\Many;
 
 class Hexpress implements Noncapture
 {
     use With, Starting, Ending;
-    use Find;
+    use Find, Matching;
     use Many;
 
     /** */
@@ -22,7 +23,14 @@ class Hexpress implements Noncapture
      *
      */
     public function __construct($hexen = NULL) {
-        $this->expressions = is_array($hexen)? $hexen : [];
+        if($hexen)
+        {
+            $this->expressions = is_array($hexen)? $hexen : [$hexen];
+        }
+        else
+        {
+            $this->expressions = [];
+        }
     }
 
     /**
