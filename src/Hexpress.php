@@ -6,6 +6,8 @@ use Hexpress\Hexpress\Value\With;
 use Hexpress\Hexpress\Value\Starting;
 use Hexpress\Hexpress\Value\Ending;
 use Hexpress\Hexpress\Value\Except;
+use Hexpress\Hexpress\Values\Either;
+use Hexpress\Hexpress\Values\Range;
 use Hexpress\Hexpress\Nested\Find;
 use Hexpress\Hexpress\Nested\Matching;
 use Hexpress\Hexpress\Noncapture;
@@ -17,6 +19,7 @@ class Hexpress implements Noncapture
     use With, Starting, Ending, Except;
     use Find, Matching;
     use Many, One;
+    use Either, Range;
 
     /** */
     private $expressions;
@@ -187,6 +190,10 @@ class Hexpress implements Noncapture
         $this->add(new $hex($value, $option));
     }
 
+    private function pop_value()
+    {
+        return array_pop($this->expressions);
+    }
 }
 
 /*
