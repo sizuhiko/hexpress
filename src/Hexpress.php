@@ -188,6 +188,7 @@ class Hexpress implements Noncapture
     private function add_values($hex, $value, $option)
     {
         $this->add(new $hex($value, $option));
+        return $this;
     }
 
     private function pop_value()
