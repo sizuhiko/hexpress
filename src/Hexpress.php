@@ -13,12 +13,13 @@ use Hexpress\Hexpress\Nested\Matching;
 use Hexpress\Hexpress\Noncapture;
 use Hexpress\Hexpress\Many;
 use Hexpress\Hexpress\One;
+use Hexpress\Hexpress\Limit;
 
 class Hexpress implements Noncapture
 {
     use With, Starting, Ending, Except;
     use Find, Matching;
-    use Many, One;
+    use Many, One, Limit;
     use Either, Range;
 
     /** */
@@ -195,7 +196,7 @@ class Hexpress implements Noncapture
 
     private function add_values($hex, $value, $option)
     {
-        $this->add(new $hex($value, $option));
+        $this->add(new $hex(is_callable($value)? new Hexpress($value) : $value, $option));
         return $this;
     }
 
