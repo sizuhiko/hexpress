@@ -82,7 +82,7 @@ class HexpressTest extends \PHPUnit_Framework_TestCase {
             ->maybe("s")
             ->with("://")
             ->maybe((new Hexpress())->words()->with("."))
-            ->find((new Hexpress())->matching([(new Hexpress())->word(), "-"])->many())
+            ->find((new Hexpress())->matching(function($hex) {$hex->word()->with("-");})->many())
             ->has(".")
             ->either(["com", "org"])
             ->maybe("/")
@@ -94,14 +94,14 @@ class HexpressTest extends \PHPUnit_Framework_TestCase {
     {
         $protocol = (new Hexpress())->start("http")->maybe("s")->with("://");
         $tld = (new Hexpress())->with(".")->either(["org", "com", "net"]);
-        $link = (new Hexpress())->has($protocol)->find((new Hexpress())->words())->including($tld);
+        $link = (new Hexpress())->has($protocol)->find(function($hex) {$hex->words();})->including($tld);
         $this->assertEquals("^https?\:\/\/((?:\w)+)\.(?:org|com|net)", $link);
     }
 
     public function testAlsoEntirelyFeasibleToCompoundTwoOrMorePatternsTogether()
     {
         $protocol = (new Hexpress())->start("http")->maybe("s")->with("://");
-        $domain = (new Hexpress())->find((new Hexpress())->words());
+        $domain = (new Hexpress())->find(function($hex) {$hex->words();});
         $tld = (new Hexpress())->with(".")->either(["org", "com", "net"]);
         $link =  (new Hexpress())->concat($protocol)->concat($domain)->concat($tld);
         $this->assertEquals("^https?\:\/\/((?:\w)+)\.(?:org|com|net)", $link);

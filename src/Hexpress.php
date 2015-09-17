@@ -30,7 +30,15 @@ class Hexpress implements Noncapture
     public function __construct($hexen = NULL) {
         if($hexen)
         {
-            $this->expressions = is_array($hexen)? $hexen : [$hexen];
+            if(is_callable($hexen))
+            {
+                $this->expressions = [];
+                $hexen($this);
+            }
+            else
+            {
+                $this->expressions = is_array($hexen)? $hexen : [$hexen];
+            }
         }
         else
         {
@@ -176,7 +184,7 @@ class Hexpress implements Noncapture
     }
 
     private function add_value($hex, $value) {
-        $this->add(new $hex($value));
+        $this->add(new $hex(is_callable($value)? new Hexpress($value) : $value));
         return $this;
     }
 

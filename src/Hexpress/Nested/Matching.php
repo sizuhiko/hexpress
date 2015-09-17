@@ -1,18 +1,19 @@
 <?php
 namespace Hexpress\Hexpress\Nested;
 
+use Hexpress\Hexpress;
 use Hexpress\Hexpress\Nested;
 
 trait Matching
 {
-    public function matching($value)
+    public function matching($callback)
     {
-        return $this->add_nested(MatchingValue::class, $value);
+        return $this->add_nested(MatchingValue::class, $callback);
 
     }
-    public function like($value)
+    public function like($callback)
     {
-        return $this->matching($value);
+        return $this->matching($callback);
     }
 }
 
@@ -24,9 +25,9 @@ class MatchingValue
     private $open;
     private $close;
 
-    public function __construct($hexpression)
+    public function __construct($callback)
     {
-        $this->hexpression = $hexpression;
+        $this->hexpression = new Hexpress($callback);
         $this->open = "[";
         $this->close = "]";
     }

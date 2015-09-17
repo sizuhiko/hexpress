@@ -13,7 +13,7 @@ class ExampleWithOne
 class OneTest extends \PHPUnit_Framework_TestCase {
     public function testMaybeReturnsQuestionSuffix()
     {
-        $this->assertEquals('/(?:(?:\w)+)?/', (new Hexpress())->maybe((new Hexpress())->words())->toRegExp());
+        $this->assertEquals('/(?:(?:\w)+)?/', (new Hexpress())->maybe(function($hex){$hex->words();})->toRegExp());
     }
 
     public function testMaybeReturnsOnlyQuestionIfNoValueGiven()

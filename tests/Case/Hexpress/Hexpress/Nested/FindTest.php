@@ -2,7 +2,6 @@
 namespace Test\Hexpress\Hexpress\Nested;
 
 use Hexpress\Hexpress\Nested\Find;
-use Hexpress\Hexpress\Character;
 
 class ExampleNestedFind
 {
@@ -14,7 +13,7 @@ class FindTest extends \PHPUnit_Framework_TestCase
 
     public function testToStringReturnsCaptureOfTheHexpression()
     {
-        $this->assertEquals('(\w)', new \Hexpress\Hexpress\Nested\FindValue(Character::word()));
+        $this->assertEquals('(\w)', new \Hexpress\Hexpress\Nested\FindValue(function($hex) {$hex->word();}));
     }
 
     public function testToStringReturnsCaptureOfTheString()
