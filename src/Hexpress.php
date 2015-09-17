@@ -5,6 +5,7 @@ use Hexpress\Hexpress\Character;
 use Hexpress\Hexpress\Value\With;
 use Hexpress\Hexpress\Value\Starting;
 use Hexpress\Hexpress\Value\Ending;
+use Hexpress\Hexpress\Value\Except;
 use Hexpress\Hexpress\Nested\Find;
 use Hexpress\Hexpress\Nested\Matching;
 use Hexpress\Hexpress\Noncapture;
@@ -13,7 +14,7 @@ use Hexpress\Hexpress\One;
 
 class Hexpress implements Noncapture
 {
-    use With, Starting, Ending;
+    use With, Starting, Ending, Except;
     use Find, Matching;
     use Many, One;
 
