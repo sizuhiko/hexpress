@@ -6,7 +6,7 @@ trait Values
     public function values()
     {
         return array_map(function($value) {
-            return preg_quote($value);
+            return is_string($value)? preg_quote($value) : $value;
         }, $this->values);
     }
 
