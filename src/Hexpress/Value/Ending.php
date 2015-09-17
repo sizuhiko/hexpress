@@ -7,10 +7,10 @@ trait Ending {
     public function ending($value = NULL) {
         return $this->add_value(EndingValue::class, $value);
     }
-    public function end($value) {
+    public function end($value = NULL) {
         return $this->ending($value);
     }
-    public function endline($value) {
+    public function endline($value = NULL) {
         return $this->ending($value);
     }
 }

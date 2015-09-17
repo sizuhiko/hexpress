@@ -8,10 +8,8 @@ trait Range
     public function letter()
     {
         $this->lower();
-        $lower = $this->pop_value();
         $this->upper();
-        $upper = $this->pop_value();
-        return $lower.$upper;
+        return $this;
     }
 
     public function lower($value = false)
