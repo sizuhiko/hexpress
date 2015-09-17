@@ -45,6 +45,15 @@ echo $link; #=> "^https?\:\/\/((?:\w)+)\.(?:org|com|net)"
 
 Hexpressions are very flexible.
 
+## TODO
+
+- lookahead assertions
+- lookbehind assertions
+- back reference
+- conditional subpattern
+- once-only subpattern
+- Internal option setting
+
 ## Installing
 
 Add this line to your application's composer.json:
