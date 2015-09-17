@@ -5,7 +5,7 @@ trait Suffix
 {
     public function suffix($value)
     {
-        if($value)
+        if($this->value())
         {
             return "{$value}{$this->operator()}";
         }

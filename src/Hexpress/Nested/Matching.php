@@ -40,6 +40,6 @@ class MatchingValue
 
     private function escape($value)
     {
-        return is_string($value)? preg_quote($value) : $value;
+        return is_string($value)? preg_quote($value, '/') : $value;
     }
 }

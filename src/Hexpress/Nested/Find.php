@@ -16,6 +16,10 @@ trait Find {
 class FindValue {
     use Nested;
 
+    private $hexpression;
+    private $open;
+    private $close;
+
     public function __construct($value) {
         $this->hexpression = $value;
         $this->open  = "(";

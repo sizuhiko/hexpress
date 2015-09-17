@@ -75,4 +75,35 @@ class HexpressTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(1, preg_match((new Hexpress())->with("foo")->toRegExp(), "foo"));
     }
 
+    public function testAllowsYouToChainMethodsToBuildUpRegexPattern()
+    {
+        $pattern = (new Hexpress())
+            ->start("http")
+            ->maybe("s")
+            ->with("://")
+            ->maybe((new Hexpress())->words()->with("."))
+            ->find((new Hexpress())->matching([(new Hexpress())->word(), "-"])->many())
+            ->has(".")
+            ->either(["com", "org"])
+            ->maybe("/")
+            ->ending();
+        $this->assertEquals('/^https?\:\/\/(?:(?:\w)+\.)?([\w\-]+)\.(?:com|org)\/?$/', $pattern->toRegExp());
+    }
+
+    public function testAdvancedComposureOfMultiplePatterns()
+    {
+        $protocol = (new Hexpress())->start("http")->maybe("s")->with("://");
+        $tld = (new Hexpress())->with(".")->either(["org", "com", "net"]);
+        $link = (new Hexpress())->has($protocol)->find((new Hexpress())->words())->including($tld);
+        $this->assertEquals("^https?\:\/\/((?:\w)+)\.(?:org|com|net)", $link);
+    }
+
+    public function testAlsoEntirelyFeasibleToCompoundTwoOrMorePatternsTogether()
+    {
+        $protocol = (new Hexpress())->start("http")->maybe("s")->with("://");
+        $domain = (new Hexpress())->find((new Hexpress())->words());
+        $tld = (new Hexpress())->with(".")->either(["org", "com", "net"]);
+        $link =  (new Hexpress())->concat($protocol)->concat($domain)->concat($tld);
+        $this->assertEquals("^https?\:\/\/((?:\w)+)\.(?:org|com|net)", $link);
+    }
 }

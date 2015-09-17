@@ -180,8 +180,8 @@ class Hexpress implements Noncapture
         return $this;
     }
 
-    private function add_nested($hex) {
-        $this->add(new $hex());
+    private function add_nested($hex, $value) {
+        $this->add(new $hex($value));
         return $this;
     }
 

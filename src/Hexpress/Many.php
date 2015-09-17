@@ -5,7 +5,7 @@ trait Many
 {
     public function many($value = NULL, $minimum = 1)
     {
-        $this->add_values(ManyValue::class, $value, $minimum);
+        return $this->add_values(ManyValue::class, $value, $minimum);
     }
 }
 

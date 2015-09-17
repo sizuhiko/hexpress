@@ -17,7 +17,7 @@ $pattern = (new Hexpress())
     ->maybe("s")
     ->with("://")
     ->maybe((new Hexpress())->words()->with("."))
-    ->find((new Hexpress())->matching(new Hexpress([Character::word(), "-"]))->multiple())
+    ->find((new Hexpress())->matching([(new Hexpress())->word(), "-"])->many())
     ->has(".")
     ->either(["com", "org"])
     ->maybe("/")
@@ -29,25 +29,18 @@ After `use Hexpress\Hexpress` you'll have access to the Hexpress class, which al
 You can see this pattern by calling either `Hexpress#__toString()` or `Hexpress#toRegExp`:
 
 ``` php
-(string)pattern     #=> "^http(?:s)?://(?:(?:\\w)+\\.)?([\\w\\-]+)\\.(?:com|org)(?:/)?$"
-pattern->toRegExp() #=> "/^http(?:s)?:\/\/(?:(?:\\w)+\\.)?([\\w\\-]+)\\.(?:com|org)(?:\/)?$/"
+(string)$pattern     #=> "^https?\:\/\/(?:(?:\w)+\.)?([\w\-]+)\.(?:com|org)\/?$"
+$pattern->toRegExp() #=> "/^https?\:\/\/(?:(?:\w)+\.)?([\w\-]+)\.(?:com|org)\/?$/"
 ```
 
 You can even do advanced composure of multiple patterns:
 
 ``` php
 $protocol = (new Hexpress())->start("http")->maybe("s")->with("://");
-$tld = (new Hexpress())->then(".")->either(["org", "com", "net"]);
+$tld = (new Hexpress())->with(".")->either(["org", "com", "net"]);
 $link = (new Hexpress())->has($protocol)->find((new Hexpress())->words())->including($tld);
-```
 
-It's also entirely feasible to compound two or more patterns together:
-
-``` php
-$protocol = (new Hexpress())->start("http")->maybe("s")->with("://");
-$domain = (new Hexpress())->find((new Hexpress())->words());
-$tld = (new Hexpress())->then(".")->either(["org", "com", "net"]);
-$link =  (new Hexpress())->concat(protocol)->concat(domain)->concat(tld);
+(string)$link #=> "^https?\:\/\/((?:\w)+)\.(?:org|com|net)"
 ```
 
 Hexpressions are very flexible.

@@ -4,7 +4,7 @@ namespace Hexpress\Hexpress\Value;
 use Hexpress\Hexpress\Value;
 
 trait Ending {
-    public function ending($value) {
+    public function ending($value = NULL) {
         return $this->add_value(EndingValue::class, $value);
     }
     public function end($value) {

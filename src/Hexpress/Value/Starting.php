@@ -4,7 +4,7 @@ namespace Hexpress\Hexpress\Value;
 use Hexpress\Hexpress\Value;
 
 trait Starting {
-    public function starting($value) {
+    public function starting($value = NULL) {
         return $this->add_value(StartingValue::class, $value);
     }
     public function begins($value) {
