@@ -15,12 +15,31 @@ class RFC3986Test extends \PHPUnit_Framework_TestCase
     {
         $this->hexpress = new Hexpress();
     }
-    public function testMatchURI()
+
+    /**
+     * @dataProvider exampleUriProvider
+     */
+    public function testMatchURI($params)
     {
         $this->uri();
-        var_dump($this->hexpress->toRegExp());
-        preg_match($this->hexpress->toRegExp(), "http://user:password@example.com:8080/path/to/file?date=1342460570#fragment", $matches);
-        var_dump($matches);
+//        var_dump($this->hexpress->toRegExp());
+        preg_match($this->hexpress->toRegExp(), $params[0], $matches);
+//        var_dump($matches);
+        $this->assertEquals($params, $matches);
+    }
+    public function exampleUriProvider()
+    {
+        return [
+            'ftp'  => [['ftp://ftp.is.co.za/rfc/rfc1808.txt',        'ftp',  '//ftp.is.co.za/rfc/rfc1808.txt', 'ftp.is.co.za', '', 'ftp.is.co.za', '', '/rfc/rfc1808.txt']],
+            'www'  => [['http://www.ietf.org/rfc/rfc2396.txt',       'http', '//www.ietf.org/rfc/rfc2396.txt', 'www.ietf.org', '', 'www.ietf.org', '', '/rfc/rfc2396.txt']],
+            // TODO: IPv6
+            // 'ldap' => [['ldap://[2001:db8::7]/c=GB?objectClass?one', 'ldap', '[2001:db8::7]', '/c=GB', 'objectClass?one']],
+            'mail' => [['mailto:John.Doe@example.com',               'mailto', 'John.Doe@example.com']],
+            'news' => [['news:comp.infosystems.www.servers.unix',    'news', 'comp.infosystems.www.servers.unix']],
+            'tel'  => [['tel:+1-816-555-1212',                       'tel', '+1-816-555-1212']],
+            'telnet' => [['telnet://192.0.2.16:80/',                 'telnet', '//192.0.2.16:80/', '192.0.2.16:80', '', '192.0.2.16', '80', '/']],
+            'urn'  => [['urn:oasis:names:specification:docbook:dtd:xml:4.1.2', 'urn', 'oasis:names:specification:docbook:dtd:xml:4.1.2']]
+        ];
     }
 
     /**
@@ -44,9 +63,9 @@ class RFC3986Test extends \PHPUnit_Framework_TestCase
     {
         return (new Hexpress())
             ->find(function($hex){
+                $hex->matching(function($hex){ $hex->letter(); });
                 $hex->many(function($hex){
-                    $hex->matching(function($hex){ $hex->letter(); })
-                        ->matching(function($hex){ $hex->letter()->number()->with("+-."); });
+                    $hex->matching(function($hex){ $hex->letter()->number()->with("+-."); });
                 }, 0);
             });
     }
@@ -210,7 +229,7 @@ class RFC3986Test extends \PHPUnit_Framework_TestCase
             ->many(function($hex){
                 $hex->has("/");
                 $hex->many($this->pchar(), 0);
-              });
+              }, 0);
     }
     /**
      * path-empty    = 0<pchar>
@@ -229,7 +248,7 @@ class RFC3986Test extends \PHPUnit_Framework_TestCase
             ->with("?")
             ->find(function($hex){
                 $hex->many(function($hex){
-                    $hex->either([$this->pchar(), "/?"]);
+                    $hex->either([$this->pchar(), "/", "?"]);
                 }, 0);
             });
     }
@@ -242,7 +261,7 @@ class RFC3986Test extends \PHPUnit_Framework_TestCase
             ->with("#")
             ->find(function($hex){
                 $hex->many(function($hex){
-                    $hex->either([$this->pchar(), "/?"]);
+                    $hex->either([$this->pchar(), "/", "?"]);
                 }, 0);
             });
     }
@@ -256,7 +275,8 @@ class RFC3986Test extends \PHPUnit_Framework_TestCase
                 $this->unreserved(),
                 $this->pctEncoded(),
                 $this->subDelims(),
-                ":@"
+                ":",
+                "@"
             ]);
     }
 }
