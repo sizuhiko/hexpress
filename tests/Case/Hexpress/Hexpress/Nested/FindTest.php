@@ -13,12 +13,12 @@ class FindTest extends \PHPUnit_Framework_TestCase
 
     public function testToStringReturnsCaptureOfTheHexpression()
     {
-        $this->assertEquals('(\w)', new \Hexpress\Hexpress\Nested\FindValue(["value"=> function($hex) {$hex->word();}]));
+        $this->assertEquals('(\w)', new \Hexpress\Hexpress\Nested\FindValue(["value"=> function($hex) {$hex->word();}, 'named'=>false]));
     }
 
     public function testToStringReturnsCaptureOfTheString()
     {
-        $this->assertEquals('(foo)', new \Hexpress\Hexpress\Nested\FindValue(["value"=> "foo"]));
+        $this->assertEquals('(foo)', new \Hexpress\Hexpress\Nested\FindValue(["value"=> "foo", 'named'=>false]));
     }
 
     public function testToStringReturnsCaptureOfTheNamedString()
