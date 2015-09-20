@@ -24,6 +24,10 @@ class RFC3986Test extends \PHPUnit_Framework_TestCase
         $this->uri();
 //        var_dump($this->hexpress->toRegExp());
         preg_match($this->hexpress->toRegExp(), $uri, $matches);
+        !empty($matches['pathAbempty'])?  $matches['path'] = $matches['pathAbempty'] : false;
+        !empty($matches['pathAbsolute'])? $matches['path'] = $matches['pathAbsolute'] : false;
+        !empty($matches['pathRootless'])? $matches['path'] = $matches['pathRootless'] : false;
+        !empty($matches['pathEmpty'])?    $matches['path'] = $matches['pathEmpty'] : false;
 //        var_dump($matches);
         foreach ($expects as $key => $expect) {
             $this->assertEquals($expect, $matches[$key], $key);
@@ -63,7 +67,15 @@ class RFC3986Test extends \PHPUnit_Framework_TestCase
                         'path'     => '/']],
             'urn'  => ['urn:oasis:names:specification:docbook:dtd:xml:4.1.2', [
                         'scheme'   => 'urn',
-                        'path'     => 'oasis:names:specification:docbook:dtd:xml:4.1.2']]
+                        'path'     => 'oasis:names:specification:docbook:dtd:xml:4.1.2']],
+            'full' => ['https://user:password@example.com:8080/path/to/file?date=1342460570#fragmen', [
+                        'scheme'   => 'https',
+                        'userinfo' => 'user:password',
+                        'host'     => 'example.com',
+                        'port'     => '8080',
+                        'path'     => '/path/to/file',
+                        'query'    => 'date=1342460570',
+                        'fragment' => 'fragmen']]
         ];
     }
 
@@ -105,7 +117,7 @@ class RFC3986Test extends \PHPUnit_Framework_TestCase
         return (new Hexpress())
             ->find(function($hex) {
                 $hex->either([
-                    (new Hexpress())->has("//")->find($this->authority(), 'authority')->find($this->pathAbempty(), 'path'),
+                    (new Hexpress())->has("//")->find($this->authority(), 'authority')->find($this->pathAbempty(), 'pathAbempty'),
                     (new Hexpress())->find($this->pathAbsolute(), 'pathAbsolute'),
                     (new Hexpress())->find($this->pathRootless(), 'pathRootless'),
                     (new Hexpress())->find($this->pathEmpty(),    'pathEmpty')
