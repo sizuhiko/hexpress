@@ -19,26 +19,51 @@ class RFC3986Test extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider exampleUriProvider
      */
-    public function testMatchURI($params)
+    public function testMatchURI($uri, $expects)
     {
         $this->uri();
 //        var_dump($this->hexpress->toRegExp());
-        preg_match($this->hexpress->toRegExp(), $params[0], $matches);
+        preg_match($this->hexpress->toRegExp(), $uri, $matches);
 //        var_dump($matches);
-        $this->assertEquals($params, $matches);
+        foreach ($expects as $key => $expect) {
+            $this->assertEquals($expect, $matches[$key], $key);
+        }
     }
     public function exampleUriProvider()
     {
         return [
-            'ftp'  => [['ftp://ftp.is.co.za/rfc/rfc1808.txt',        'ftp',  '//ftp.is.co.za/rfc/rfc1808.txt', 'ftp.is.co.za', '', 'ftp.is.co.za', '', '/rfc/rfc1808.txt']],
-            'www'  => [['http://www.ietf.org/rfc/rfc2396.txt',       'http', '//www.ietf.org/rfc/rfc2396.txt', 'www.ietf.org', '', 'www.ietf.org', '', '/rfc/rfc2396.txt']],
+            'ftp'  => ['ftp://ftp.is.co.za/rfc/rfc1808.txt', [
+                        'scheme'   => 'ftp',
+                        'hierPart' => '//ftp.is.co.za/rfc/rfc1808.txt',
+                        'host'     => 'ftp.is.co.za',
+                        'port'     => '',
+                        'path'     => '/rfc/rfc1808.txt']],
+            'www'  => ['http://www.ietf.org/rfc/rfc2396.txt', [
+                        'scheme'   => 'http',
+                        'hierPart' => '//www.ietf.org/rfc/rfc2396.txt',
+                        'host'     => 'www.ietf.org',
+                        'port'     => '',
+                        'path'     => '/rfc/rfc2396.txt']],
             // TODO: IPv6
             // 'ldap' => [['ldap://[2001:db8::7]/c=GB?objectClass?one', 'ldap', '[2001:db8::7]', '/c=GB', 'objectClass?one']],
-            'mail' => [['mailto:John.Doe@example.com',               'mailto', 'John.Doe@example.com']],
-            'news' => [['news:comp.infosystems.www.servers.unix',    'news', 'comp.infosystems.www.servers.unix']],
-            'tel'  => [['tel:+1-816-555-1212',                       'tel', '+1-816-555-1212']],
-            'telnet' => [['telnet://192.0.2.16:80/',                 'telnet', '//192.0.2.16:80/', '192.0.2.16:80', '', '192.0.2.16', '80', '/']],
-            'urn'  => [['urn:oasis:names:specification:docbook:dtd:xml:4.1.2', 'urn', 'oasis:names:specification:docbook:dtd:xml:4.1.2']]
+            'mail' => ['mailto:John.Doe@example.com', [
+                        'scheme'   => 'mailto',
+                        'path'     => 'John.Doe@example.com']],
+            'news' => ['news:comp.infosystems.www.servers.unix', [
+                        'scheme'   => 'news',
+                        'path'     => 'comp.infosystems.www.servers.unix']],
+            'tel'  => ['tel:+1-816-555-1212',  [
+                        'scheme'   => 'tel',
+                        'path'     => '+1-816-555-1212']],
+            'telnet' => ['telnet://192.0.2.16:80/', [
+                        'scheme'   => 'telnet',
+                        'hierPart' => '//192.0.2.16:80/',
+                        'host'     => '192.0.2.16',
+                        'port'     => '80',
+                        'path'     => '/']],
+            'urn'  => ['urn:oasis:names:specification:docbook:dtd:xml:4.1.2', [
+                        'scheme'   => 'urn',
+                        'path'     => 'oasis:names:specification:docbook:dtd:xml:4.1.2']]
         ];
     }
 
@@ -67,7 +92,7 @@ class RFC3986Test extends \PHPUnit_Framework_TestCase
                 $hex->many(function($hex){
                     $hex->matching(function($hex){ $hex->letter()->number()->with("+-."); });
                 }, 0);
-            });
+              }, 'scheme');
     }
     /**
      * hier-part = "//" authority path-abempty
@@ -80,19 +105,19 @@ class RFC3986Test extends \PHPUnit_Framework_TestCase
         return (new Hexpress())
             ->find(function($hex) {
                 $hex->either([
-                    (new Hexpress())->has("//")->find($this->authority())->find($this->pathAbempty()),
-                    $this->pathAbsolute(),
-                    $this->pathRootless(),
-                    $this->pathEmpty()
+                    (new Hexpress())->has("//")->find($this->authority(), 'authority')->find($this->pathAbempty(), 'path'),
+                    (new Hexpress())->find($this->pathAbsolute(), 'pathAbsolute'),
+                    (new Hexpress())->find($this->pathRootless(), 'pathRootless'),
+                    (new Hexpress())->find($this->pathEmpty(),    'pathEmpty')
                 ]);
-              });
+              }, 'hierPart');
     }
     /**
      * authority = [ userinfo "@" ] host [ ":" port ]
      */
     private function authority()
     {
-        return (new Hexpress())->maybe($this->userinfo())->find($this->host())->maybe($this->port());
+        return (new Hexpress())->maybe($this->userinfo())->find($this->host(), 'host')->maybe($this->port());
     }
     /**
      * userinfo = *( unreserved / pct-encoded / sub-delims / ":" )
@@ -109,7 +134,7 @@ class RFC3986Test extends \PHPUnit_Framework_TestCase
                             ":"
                           ]);
                 }, 0);
-              })
+              }, 'userinfo')
             ->has("@");
     }
     /**
@@ -190,7 +215,7 @@ class RFC3986Test extends \PHPUnit_Framework_TestCase
      */
     private function port()
     {
-        return (new Hexpress())->has(":")->find(function($hex) { $hex->digits(); });
+        return (new Hexpress())->has(":")->find(function($hex) { $hex->digits(); }, 'port');
     }
     /**
      * path-abempty = *( "/" segment )
@@ -250,7 +275,7 @@ class RFC3986Test extends \PHPUnit_Framework_TestCase
                 $hex->many(function($hex){
                     $hex->either([$this->pchar(), "/", "?"]);
                 }, 0);
-            });
+              }, 'query');
     }
     /**
      * fragment = *( pchar / "/" / "?" )
@@ -263,7 +288,7 @@ class RFC3986Test extends \PHPUnit_Framework_TestCase
                 $hex->many(function($hex){
                     $hex->either([$this->pchar(), "/", "?"]);
                 }, 0);
-            });
+              }, 'fragment');
     }
     /**
      * pchar = unreserved / pct-encoded / sub-delims / ":" / "@"
