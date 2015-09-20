@@ -1,4 +1,5 @@
 <?php
+
 namespace Test\Hexpress\Hexpress;
 
 use Hexpress\Hexpress;
@@ -9,19 +10,20 @@ class ExampleWithLimit
     use Limit;
 }
 
-class LimitTest extends \PHPUnit_Framework_TestCase {
+class LimitTest extends \PHPUnit_Framework_TestCase
+{
     public function testLimitReturnsOnlyMinSuffixIfNoMaxValueGiven()
     {
-        $this->assertEquals('/(?:(?:\w)+){2}/', (new Hexpress())->limit(function($hex){$hex->words();}, 2)->toRegExp());
+        $this->assertEquals('/(?:(?:\w)+){2}/', (new Hexpress())->limit(function ($hex) {$hex->words();}, 2)->toRegExp());
     }
 
     public function testLimitReturnsMinAndCommaIfMinGraterThanMax()
     {
-        $this->assertEquals('/(?:(?:\w)+){2,}/', (new Hexpress())->limit(function($hex){$hex->words();}, 2, 1)->toRegExp());
+        $this->assertEquals('/(?:(?:\w)+){2,}/', (new Hexpress())->limit(function ($hex) {$hex->words();}, 2, 1)->toRegExp());
     }
 
     public function testLimitReturnsLimitRange()
     {
-        $this->assertEquals('/(?:(?:\w)+){1,5}/', (new Hexpress())->limit(function($hex){$hex->words();}, 1, 5)->toRegExp());
+        $this->assertEquals('/(?:(?:\w)+){1,5}/', (new Hexpress())->limit(function ($hex) {$hex->words();}, 1, 5)->toRegExp());
     }
 }

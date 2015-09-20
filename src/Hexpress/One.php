@@ -1,19 +1,20 @@
 <?php
+
 namespace Hexpress\Hexpress;
 
 use Hexpress\Hexpress;
 
 trait One
 {
-    public function one($value = NULL)
+    public function one($value = null)
     {
         return $this->add_value(OneValue::class, $value);
     }
-    public function maybe($value = NULL)
+    public function maybe($value = null)
     {
         return $this->one($value);
     }
-    public function possibly($value = NULL)
+    public function possibly($value = null)
     {
         return $this->one($value);
     }
@@ -30,16 +31,14 @@ class OneValue implements Noncapture
 
     public function operator()
     {
-        return "?";
+        return '?';
     }
 
     public function __toString()
     {
-        if($this->value() instanceof Hexpress)
-        {
+        if ($this->value() instanceof Hexpress) {
             return $this->suffix($this->wrapping($this->valueToString()));
-        }
-        else {
+        } else {
             return $this->suffix($this->valueToString());
         }
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Hexpress\Hexpress\Values;
 
 use Hexpress\Hexpress\Values;
@@ -31,8 +32,8 @@ class EitherValue
     public function __construct($values)
     {
         $this->values = $values;
-        $this->open ="(?:";
-        $this->close = ")";
+        $this->open = '(?:';
+        $this->close = ')';
     }
 
     public function __toString()
@@ -42,6 +43,6 @@ class EitherValue
 
     private function delimiter()
     {
-        return "|";
+        return '|';
     }
 }

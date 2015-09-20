@@ -1,109 +1,127 @@
 <?php
+
 namespace Test\Hexpress;
 
 use Hexpress\Hexpress;
 
-class HexpressTest extends \PHPUnit_Framework_TestCase {
-    public function testItTakesChainAndTurnsIntoRegex() {
-        $pattern = (new Hexpress())->find("foo");
-        $this->assertEquals("/(foo)/", $pattern->toRegExp());
+class HexpressTest extends \PHPUnit_Framework_TestCase
+{
+    public function testItTakesChainAndTurnsIntoRegex()
+    {
+        $pattern = (new Hexpress())->find('foo');
+        $this->assertEquals('/(foo)/', $pattern->toRegExp());
     }
 
-    public function testWordReturnsTheWordMatcher() {
+    public function testWordReturnsTheWordMatcher()
+    {
         $this->assertEquals('\w', (new Hexpress())->word());
     }
 
-    public function testDigitReturnsTheDigitMatcher() {
+    public function testDigitReturnsTheDigitMatcher()
+    {
         $this->assertEquals('\d', (new Hexpress())->digit());
     }
 
-    public function testSpaceReturnsTheWhitespaceMatcher() {
+    public function testSpaceReturnsTheWhitespaceMatcher()
+    {
         $this->assertEquals('\s', (new Hexpress())->space());
     }
 
-    public function testWordsReturnsTheWordAndMultipleMatchers() {
+    public function testWordsReturnsTheWordAndMultipleMatchers()
+    {
         $this->assertEquals('(?:\w)+', (new Hexpress())->words());
     }
 
-    public function testDigitsReturnsTheDigitAndMultipleMatchers() {
+    public function testDigitsReturnsTheDigitAndMultipleMatchers()
+    {
         $this->assertEquals('(?:\d)+', (new Hexpress())->digits());
     }
 
-    public function testSpecesReturnsTheWhitespaceAndMultipleMatchers() {
+    public function testSpecesReturnsTheWhitespaceAndMultipleMatchers()
+    {
         $this->assertEquals('(?:\s)+', (new Hexpress())->spaces());
     }
 
-    public function testNonwordReturnsTheNonwordMatcher() {
+    public function testNonwordReturnsTheNonwordMatcher()
+    {
         $this->assertEquals('\W', (new Hexpress())->nonword());
     }
 
     // describe "#nondigit" do
-    public function testNondigitReturnsTheNondigitMatcher() {
+    public function testNondigitReturnsTheNondigitMatcher()
+    {
         $this->assertEquals('\D', (new Hexpress())->nondigit());
     }
 
     // describe "#nonspace" do
-    public function testNonspaceReturnsTheNonwhitespaceMatcher() {
+    public function testNonspaceReturnsTheNonwhitespaceMatcher()
+    {
         $this->assertEquals('\S', (new Hexpress())->nonspace());
     }
 
-    public function testNonwordsReturnsTheNonwordAndMultipleMatchers() {
+    public function testNonwordsReturnsTheNonwordAndMultipleMatchers()
+    {
         $this->assertEquals('(?:\W)+', (new Hexpress())->nonwords());
     }
 
-    public function testNondigitsReturnsTheNondigitAndMultipleMatchers() {
+    public function testNondigitsReturnsTheNondigitAndMultipleMatchers()
+    {
         $this->assertEquals('(?:\D)+', (new Hexpress())->nondigits());
     }
 
-    public function testNonspecesReturnsTheNonwhitespaceAndMultipleMatchers() {
+    public function testNonspecesReturnsTheNonwhitespaceAndMultipleMatchers()
+    {
         $this->assertEquals('(?:\S)+', (new Hexpress())->nonspaces());
     }
 
-    public function testAnythingReturnsAnyWithZeroOrMorePatternWrappedInNoncapute() {
+    public function testAnythingReturnsAnyWithZeroOrMorePatternWrappedInNoncapute()
+    {
         $this->assertEquals('(?:.)*', (new Hexpress())->anything());
     }
 
-    public function testConcatReturnsCombinationOfAnyNumberOfExpressions() {
-        $pattern1 = (new Hexpress())->with("foo");
-        $pattern2 = (new Hexpress())->with("bar");
-        $pattern3 = (new Hexpress())->with("bang");
+    public function testConcatReturnsCombinationOfAnyNumberOfExpressions()
+    {
+        $pattern1 = (new Hexpress())->with('foo');
+        $pattern2 = (new Hexpress())->with('bar');
+        $pattern3 = (new Hexpress())->with('bang');
         $pattern4 = $pattern1->concat($pattern2)->concat($pattern3);
         $this->assertEquals('/foobarbang/', $pattern4->toRegExp());
     }
 
-    public function testHexpressShouldBeAbleToMatch() {
-        $this->assertEquals(1, preg_match((new Hexpress())->with("foo")->toRegExp(), "foo"));
+    public function testHexpressShouldBeAbleToMatch()
+    {
+        $this->assertEquals(1, preg_match((new Hexpress())->with('foo')->toRegExp(), 'foo'));
     }
 
     public function testAllowsYouToChainMethodsToBuildUpRegexPattern()
     {
         $pattern = (new Hexpress())
-            ->start("http")
-            ->maybe("s")
-            ->with("://")
-            ->maybe(function($hex) { $hex->words()->with("."); })
-            ->find(function($hex) { $hex->matching(function($hex) {$hex->word()->with("-");})->many(); })
-            ->has(".")
-            ->either(["com", "org"])
-            ->maybe("/")
+            ->start('http')
+            ->maybe('s')
+            ->with('://')
+            ->maybe(function ($hex) { $hex->words()->with('.'); })
+            ->find(function ($hex) { $hex->matching(function ($hex) {$hex->word()->with('-');})->many(); })
+            ->has('.')
+            ->either(['com', 'org'])
+            ->maybe('/')
             ->ending();
         $this->assertEquals('/^https?\:\/\/(?:(?:\w)+\.)?([\w\-]+)\.(?:com|org)\/?$/', $pattern->toRegExp());
     }
 
     public function testAdvancedComposureOfMultiplePatterns()
     {
-        $protocol = (new Hexpress())->start("http")->maybe("s")->with("://");
-        $tld = (new Hexpress())->with(".")->either(["org", "com", "net"]);
-        $link = (new Hexpress())->has($protocol)->find(function($hex) {$hex->words();})->including($tld);
+        $protocol = (new Hexpress())->start('http')->maybe('s')->with('://');
+        $tld = (new Hexpress())->with('.')->either(['org', 'com', 'net']);
+        $link = (new Hexpress())->has($protocol)->find(function ($hex) {$hex->words();})->including($tld);
         $this->assertEquals("^https?\:\/\/((?:\w)+)\.(?:org|com|net)", $link);
     }
 
     public function testAlsoEntirelyFeasibleToCompoundTwoOrMorePatternsTogether()
     {
-        $protocol = (new Hexpress())->start("http")->maybe("s")->with("://");
-        $domain = (new Hexpress())->find(function($hex) {$hex->words();});
-        $tld = (new Hexpress())->with(".")->either(["org", "com", "net"]);
-        $link =  (new Hexpress())->concat($protocol)->concat($domain)->concat($tld);
+        $protocol = (new Hexpress())->start('http')->maybe('s')->with('://');
+        $domain = (new Hexpress())->find(function ($hex) {$hex->words();});
+        $tld = (new Hexpress())->with('.')->either(['org', 'com', 'net']);
+        $link = (new Hexpress())->concat($protocol)->concat($domain)->concat($tld);
         $this->assertEquals("^https?\:\/\/((?:\w)+)\.(?:org|com|net)", $link);
     }
 }

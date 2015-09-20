@@ -1,31 +1,39 @@
 <?php
+
 namespace Hexpress\Hexpress\Value;
 
 use Hexpress\Hexpress\Value;
 
-trait Starting {
-    public function starting($value = NULL) {
+trait Starting
+{
+    public function starting($value = null)
+    {
         return $this->add_value(StartingValue::class, $value);
     }
-    public function begins($value) {
+    public function begins($value)
+    {
         return $this->starting($value);
     }
-    public function begin($value) {
+    public function begin($value)
+    {
         return $this->starting($value);
     }
-    public function start($value) {
+    public function start($value)
+    {
         return $this->starting($value);
     }
-    public function startline($value) {
+    public function startline($value)
+    {
         return $this->starting($value);
     }
 }
 
-class StartingValue {
+class StartingValue
+{
     use Value;
 
     public function __toString()
     {
-        return "^".$this->value();
+        return '^'.$this->value();
     }
 }

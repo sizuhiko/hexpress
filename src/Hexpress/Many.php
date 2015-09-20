@@ -1,9 +1,10 @@
 <?php
+
 namespace Hexpress\Hexpress;
 
 trait Many
 {
-    public function many($value = NULL, $minimum = 1)
+    public function many($value = null, $minimum = 1)
     {
         return $this->add_values(ManyValue::class, $value, $minimum);
     }
@@ -31,13 +32,14 @@ class ManyValue implements Noncapture
     {
         switch ($this->minimum) {
             case 0:
-                return "*";
+                return '*';
             case 1:
-                return "+";
+                return '+';
         }
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->suffix($this->wrapping($this->valueToString()));
     }
 }

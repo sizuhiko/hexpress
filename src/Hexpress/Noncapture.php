@@ -1,8 +1,9 @@
 <?php
+
 namespace Hexpress\Hexpress;
 
 interface Noncapture
 {
-    const OPEN = "(?:";
-    const CLOSE = ")";
+    const OPEN = '(?:';
+    const CLOSE = ')';
 }

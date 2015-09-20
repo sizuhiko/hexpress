@@ -1,4 +1,5 @@
 <?php
+
 namespace Hexpress;
 
 use Hexpress\Hexpress\Character;
@@ -28,175 +29,214 @@ class Hexpress implements Noncapture
     /**
      *
      */
-    public function __construct($hexen = NULL) {
-        if($hexen)
-        {
-            if(is_callable($hexen))
-            {
+    public function __construct($hexen = null)
+    {
+        if ($hexen) {
+            if (is_callable($hexen)) {
                 $this->expressions = [];
                 $hexen($this);
+            } else {
+                $this->expressions = is_array($hexen) ? $hexen : [$hexen];
             }
-            else
-            {
-                $this->expressions = is_array($hexen)? $hexen : [$hexen];
-            }
-        }
-        else
-        {
+        } else {
             $this->expressions = [];
         }
     }
 
     /**
-     * Matches \w
+     * Matches \w.
      */
-    public function word() {
+    public function word()
+    {
         $this->add(Character::word());
+
         return $this;
     }
 
     /**
-     * Matches \d
+     * Matches \d.
      */
-    public function digit() {
+    public function digit()
+    {
         $this->add(Character::digit());
+
         return $this;
     }
 
     /**
-     * Matches \s
+     * Matches \s.
      */
-    public function space() {
+    public function space()
+    {
         $this->add(Character::space());
+
         return $this;
     }
 
     /**
      * Matches .
      */
-    public function any() {
+    public function any()
+    {
         $this->add(Character::any());
+
         return $this;
     }
 
     /**
-     * Matches (?:.)*
+     * Matches (?:.)*.
      */
-    public function anything() {
+    public function anything()
+    {
         $this->many(Character::any(), 0);
+
         return $this;
     }
 
     /**
-     * Matches (?:.)+
+     * Matches (?:.)+.
      */
-    public function something() {
+    public function something()
+    {
         $this->many(Character::any(), 1);
+
         return $this;
     }
 
     /**
-     * Matches \t
+     * Matches \t.
      */
-    public function tab() {
+    public function tab()
+    {
         $this->add(Character::tab());
+
         return $this;
     }
 
     /**
-     * Matches (?:(?:\n)|(?:\r\n))
+     * Matches (?:(?:\n)|(?:\r\n)).
      */
-    public function line() {
+    public function line()
+    {
         $this->either(new Character('(?:\n)'), new Character('(?:\r\n)'));
+
         return $this;
     }
 
-    public function words() {
+    public function words()
+    {
         $this->many(Character::word());
+
         return $this;
     }
 
-    public function digits() {
+    public function digits()
+    {
         $this->many(Character::digit());
+
         return $this;
     }
 
-    public function spaces() {
+    public function spaces()
+    {
         $this->many(Character::space());
+
         return $this;
     }
 
-    public function nonword() {
+    public function nonword()
+    {
         $this->add(Character::word(true));
+
         return $this;
     }
 
-    public function nondigit() {
+    public function nondigit()
+    {
         $this->add(Character::digit(true));
+
         return $this;
     }
 
-    public function nonspace() {
+    public function nonspace()
+    {
         $this->add(Character::space(true));
+
         return $this;
     }
 
-    public function nonwords() {
+    public function nonwords()
+    {
         $this->many(Character::word(true));
+
         return $this;
     }
 
-    public function nondigits() {
+    public function nondigits()
+    {
         $this->many(Character::digit(true));
+
         return $this;
     }
 
-    public function nonspaces() {
+    public function nonspaces()
+    {
         $this->many(Character::space(true));
+
         return $this;
     }
 
     /**
      * This method returns the string version of the regexp.
      */
-    public function toRegExp() {
+    public function toRegExp()
+    {
         return '/'.$this.'/';
     }
 
-    public function __toString() {
-        return implode('', array_map(function($expression) { return "{$expression}"; }, $this->expressions));
+    public function __toString()
+    {
+        return implode('', array_map(function ($expression) { return "{$expression}"; }, $this->expressions));
     }
 
     /**
      * Takes an expression and returns the combination of the two expressions
      * in a new Hexpress object.
      */
-    public function concat($expression) {
-        return new Hexpress(array_merge($this->expressions, $expression->expressions));
+    public function concat($expression)
+    {
+        return new self(array_merge($this->expressions, $expression->expressions));
     }
 
     /**
      * This method takes an hex and adds it to the hexen queue
      * while returning the main object.
      */
-    private function add($hex) {
+    private function add($hex)
+    {
         $this->expressions[] = $hex;
+
         return $this;
     }
 
-    private function add_value($hex, $value) {
-        $this->add(new $hex(is_callable($value)? new Hexpress($value) : $value));
+    private function add_value($hex, $value)
+    {
+        $this->add(new $hex(is_callable($value) ? new self($value) : $value));
+
         return $this;
     }
 
-    private function add_nested($hex, $value) {
+    private function add_nested($hex, $value)
+    {
         $this->add(new $hex($value));
+
         return $this;
     }
 
     private function add_values($hex, $value, $option)
     {
-        $this->add(new $hex(is_callable($value)? new Hexpress($value) : $value, $option));
+        $this->add(new $hex(is_callable($value) ? new self($value) : $value, $option));
+
         return $this;
     }
 
@@ -205,18 +245,3 @@ class Hexpress implements Noncapture
         return array_pop($this->expressions);
     }
 }
-
-/*
-require_relative "hexpress/character"
-require_relative "hexpress/version"
-require_relative "hexpress/value"
-require_relative "hexpress/suffix"
-require_relative "hexpress/prefix"
-require_relative "hexpress/wrapped"
-require_relative "hexpress/noncapture"
-require_relative "hexpress/many"
-
-if defined?(Rails)
-  require_relative "hexpress/main"
-end
-*/

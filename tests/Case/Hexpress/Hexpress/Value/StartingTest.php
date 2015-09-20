@@ -1,4 +1,5 @@
 <?php
+
 namespace Test\Hexpress\Hexpress\Value;
 
 use Hexpress\Hexpress\Value\Starting;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Hexpress\Hexpress;
 
 trait Limit
@@ -30,21 +31,18 @@ class LimitValue implements Noncapture
 
     public function operator()
     {
-        if ($this->max == 0)
-        {
+        if ($this->max == 0) {
             return "{{$this->min}}";
         }
-        if ($this->max < $this->min)
-        {
+        if ($this->max < $this->min) {
             return "{{$this->min},}";
-        }
-        else
-        {
+        } else {
             return "{{$this->min},{$this->max}}";
         }
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->suffix($this->wrapping($this->valueToString()));
     }
 }

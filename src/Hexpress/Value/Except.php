@@ -1,4 +1,5 @@
 <?php
+
 namespace Hexpress\Hexpress\Value;
 
 use Hexpress\Hexpress\Value;

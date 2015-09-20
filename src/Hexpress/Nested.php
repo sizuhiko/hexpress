@@ -1,28 +1,33 @@
 <?php
+
 namespace Hexpress\Hexpress;
 
-use Hexpress\Hexpress\Wrapped;
-
-trait Nested {
+trait Nested
+{
     use Wrapped;
 
-    public function delimiter() {
-        return isset($this->delimiter) ? $this->delimiter : "";
+    public function delimiter()
+    {
+        return isset($this->delimiter) ? $this->delimiter : '';
     }
 
-    public function hexpression() {
+    public function hexpression()
+    {
         return $this->joinable() ? $this->join_hexpression() : $this->hexpression;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->wrapping($this->hexpression());
     }
 
-    private function join_hexpression() {
+    private function join_hexpression()
+    {
         return implode($this->delimiter(), $this->hexpression);
     }
 
-    private function joinable() {
+    private function joinable()
+    {
         return is_array($this->hexpression);
     }
 }
