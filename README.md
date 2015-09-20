@@ -3,7 +3,7 @@ hexpress is a PHP library that human way to define regular expressions
 
 hexpress is ported from Ruby's [hexpress](https://github.com/krainboltgreene/hexpress).
 
-The hexpress is another take at the concept of ["Verbal Hexpressions"]().
+The hexpress is another take at the concept of ["Verbal Hexpressions"](http://verbalexpressions.github.io/).
 
 hexpress requires PHP >= 5.5
 
@@ -16,8 +16,8 @@ $pattern = (new Hexpress())
     ->start("http")
     ->maybe("s")
     ->with("://")
-    ->maybe((new Hexpress())->words()->with("."))
-    ->find((new Hexpress())->matching(function($hex) {$hex->word()->with("-");})->many())
+    ->maybe(function($hex) { $hex->words()->with("."); })
+    ->find(function($hex) { $hex->matching(function($hex) {$hex->word()->with("-");})->many(); })
     ->has(".")
     ->either(["com", "org"])
     ->maybe("/")
@@ -47,6 +47,7 @@ Hexpressions are very flexible.
 
 ## TODO
 
+- PHP Document and API reference
 - lookahead assertions
 - lookbehind assertions
 - back reference
