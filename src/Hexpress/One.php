@@ -8,7 +8,7 @@ trait One
 {
     public function one($value = null)
     {
-        return $this->add_value(OneValue::class, $value);
+        return $this->addValue(OneValue::class, $value);
     }
     public function maybe($value = null)
     {

@@ -8,7 +8,7 @@ trait With
 {
     public function with($value)
     {
-        return $this->add_value(WithValue::class, $value);
+        return $this->addValue(WithValue::class, $value);
     }
     public function has($value)
     {

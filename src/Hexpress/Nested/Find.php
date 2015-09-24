@@ -11,7 +11,7 @@ trait Find
     {
         $param = compact('value', 'named');
 
-        return is_callable($value) ? $this->add_nested(FindValue::class, $param) : $this->add_value(FindValue::class, $param);
+        return is_callable($value) ? $this->addNested(FindValue::class, $param) : $this->addValue(FindValue::class, $param);
     }
     public function capture($value = null)
     {

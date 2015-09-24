@@ -8,7 +8,7 @@ trait Starting
 {
     public function starting($value = null)
     {
-        return $this->add_value(StartingValue::class, $value);
+        return $this->addValue(StartingValue::class, $value);
     }
     public function begins($value)
     {
