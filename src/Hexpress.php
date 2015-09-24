@@ -239,5 +239,4 @@ class Hexpress implements Noncapture
 
         return $this;
     }
-
 }
