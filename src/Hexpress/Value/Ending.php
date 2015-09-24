@@ -8,7 +8,7 @@ trait Ending
 {
     public function ending($value = null)
     {
-        return $this->add_value(EndingValue::class, $value);
+        return $this->addValue(EndingValue::class, $value);
     }
     public function end($value = null)
     {

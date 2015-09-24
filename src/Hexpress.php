@@ -219,29 +219,25 @@ class Hexpress implements Noncapture
         return $this;
     }
 
-    private function add_value($hex, $value)
+    private function addValue($hex, $value)
     {
         $this->add(new $hex(is_callable($value) ? new self($value) : $value));
 
         return $this;
     }
 
-    private function add_nested($hex, $value)
+    private function addNested($hex, $value)
     {
         $this->add(new $hex($value));
 
         return $this;
     }
 
-    private function add_values($hex, $value, $option)
+    private function addValues($hex, $value, $option)
     {
         $this->add(new $hex(is_callable($value) ? new self($value) : $value, $option));
 
         return $this;
     }
 
-    private function pop_value()
-    {
-        return array_pop($this->expressions);
-    }
 }

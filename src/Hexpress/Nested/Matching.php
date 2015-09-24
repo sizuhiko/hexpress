@@ -9,7 +9,7 @@ trait Matching
 {
     public function matching($callback)
     {
-        return $this->add_nested(MatchingValue::class, $callback);
+        return $this->addNested(MatchingValue::class, $callback);
     }
     public function like($callback)
     {
@@ -32,7 +32,7 @@ class MatchingValue
         $this->close = ']';
     }
 
-    public function join_hexpression()
+    public function joinHexpression()
     {
         return implode('', array_map(function ($value) {
             return $this->escape($value);

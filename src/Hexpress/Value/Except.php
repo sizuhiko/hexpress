@@ -8,7 +8,7 @@ trait Except
 {
     public function except($value)
     {
-        return $this->add_value(ExceptValue::class, $value);
+        return $this->addValue(ExceptValue::class, $value);
     }
     public function excluding($value)
     {
