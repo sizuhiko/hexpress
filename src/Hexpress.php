@@ -118,7 +118,7 @@ class Hexpress implements Noncapture
      */
     public function line()
     {
-        $this->either(new Character('(?:\n)'), new Character('(?:\r\n)'));
+        $this->either([new Character('(?:\n)'), new Character('(?:\r\n)')]);
 
         return $this;
     }
