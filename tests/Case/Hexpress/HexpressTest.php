@@ -12,6 +12,11 @@ class HexpressTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('/(foo)/', $pattern->toRegExp());
     }
 
+    public function testLineReturnsTheLineMatcher()
+    {
+        $this->assertEquals('(?:(?:\n)|(?:\r\n))', (new Hexpress())->line()->__toString());
+    }
+
     public function testWordReturnsTheWordMatcher()
     {
         $this->assertEquals('\w', (new Hexpress())->word());
