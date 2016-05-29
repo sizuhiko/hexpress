@@ -13,7 +13,7 @@ trait Nested
 
     public function hexpression()
     {
-        return $this->joinable() ? $this->join_hexpression() : $this->hexpression;
+        return $this->joinable() ? $this->joinHexpression() : $this->hexpression;
     }
 
     public function __toString()
@@ -21,7 +21,7 @@ trait Nested
         return $this->wrapping($this->hexpression());
     }
 
-    private function join_hexpression()
+    private function joinHexpression()
     {
         return implode($this->delimiter(), $this->hexpression);
     }

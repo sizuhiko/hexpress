@@ -9,7 +9,7 @@ trait Many
         if($minimum > 1) {
             return $this->limit($value, $minimum);
         }
-        return $this->add_values(ManyValue::class, $value, $minimum);
+        return $this->addValues(ManyValue::class, $value, $minimum);
     }
 }
 

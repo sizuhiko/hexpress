@@ -6,7 +6,7 @@ trait Limit
 {
     public function limit($value, $min, $max = 0)
     {
-        return $this->add_values(LimitValue::class, $value, [$min, $max]);
+        return $this->addValues(LimitValue::class, $value, [$min, $max]);
     }
 }
 

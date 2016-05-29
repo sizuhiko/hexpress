@@ -9,7 +9,7 @@ trait Either
 {
     public function either($values)
     {
-        return $this->add_value(EitherValue::class, $values);
+        return $this->addValue(EitherValue::class, $values);
     }
     public function anyOf($values)
     {

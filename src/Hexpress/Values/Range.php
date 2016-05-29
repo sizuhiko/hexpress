@@ -18,21 +18,21 @@ trait Range
     {
         $value = empty($value) ? range('a', 'z') : $value;
 
-        return $this->add_value(RangeValue::class, $value);
+        return $this->addValue(RangeValue::class, $value);
     }
 
     public function upper($value = false)
     {
         $value = empty($value) ? range('A', 'Z') : $value;
 
-        return $this->add_value(RangeValue::class, $value);
+        return $this->addValue(RangeValue::class, $value);
     }
 
     public function number($value = false)
     {
         $value = empty($value) ? range('0', '9') : $value;
 
-        return $this->add_value(RangeValue::class, $value);
+        return $this->addValue(RangeValue::class, $value);
     }
 }
 
